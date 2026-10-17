@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as SetupRouteImport } from './routes/setup'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
 import { Route as ProductsIndexRouteImport } from './routes/products/index'
 import { Route as ProductsProductIdRouteImport } from './routes/products/$productId'
@@ -45,6 +46,11 @@ const LoginRoute = LoginRouteImport.update({
 const SetupRoute = SetupRouteImport.update({
   id: '/setup',
   path: '/setup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/signup': typeof SignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/signup': typeof SignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/setup': typeof SetupRoute
+  '/signup': typeof SignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/products/$productId': typeof ProductsProductIdRoute
   '/products/new': typeof ProductsNewRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/setup'
+    | '/signup'
     | '/demo/better-auth'
     | '/products/$productId'
     | '/products/new'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/setup'
+    | '/signup'
     | '/demo/better-auth'
     | '/products/$productId'
     | '/products/new'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/setup'
+    | '/signup'
     | '/demo/better-auth'
     | '/products/$productId'
     | '/products/new'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   SetupRoute: typeof SetupRoute
+  SignupRoute: typeof SignupRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
   ProductsProductIdRoute: typeof ProductsProductIdRoute
   ProductsNewRoute: typeof ProductsNewRoute
@@ -221,6 +234,13 @@ declare module '@tanstack/react-router' {
       path: '/setup'
       fullPath: '/setup'
       preLoaderRoute: typeof SetupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/better-auth': {
@@ -281,6 +301,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   SetupRoute: SetupRoute,
+  SignupRoute: SignupRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
   ProductsProductIdRoute: ProductsProductIdRoute,
   ProductsNewRoute: ProductsNewRoute,

@@ -20,7 +20,7 @@ function Setup() {
 			setMessage(
 				result.alreadySeeded
 					? "Admin account already exists."
-					: "Admin account seeded. Sign in at /demo/better-auth with admin@example.com / admin12345",
+					: "Admin account seeded. Log in at /login with admin@example.com / admin12345",
 			);
 		} catch (err) {
 			setStatus("error");
@@ -70,10 +70,10 @@ function Setup() {
 						<p className="m-0 text-sm text-[var(--sea-ink-soft)]">
 							Already have an account?{" "}
 							<Link
-								to="/demo/better-auth"
+								to="/login"
 								className="underline underline-offset-4 font-medium hover:text-[var(--sea-ink)]"
 							>
-								Sign in
+								Log in
 							</Link>
 						</p>
 					</div>

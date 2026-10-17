@@ -4,6 +4,9 @@ import { authClient } from "#/lib/auth-client";
 
 export const Route = createFileRoute("/")({ component: Home });
 
+const chipClass =
+	"rounded-xl border border-[var(--line)] bg-[var(--chip-bg)] px-4 py-3 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]";
+
 function Home() {
 	const { data: session, isPending } = authClient.useSession();
 
@@ -27,39 +30,39 @@ function Home() {
 				</p>
 
 				{session?.user ? (
-					<div className="mt-8 flex flex-wrap gap-4">
+					<div className="mt-8 flex flex-wrap items-center gap-4">
 						<div className="rounded-xl border border-[var(--line)] bg-[var(--chip-bg)] p-4">
 							<p className="m-0 text-sm text-[var(--sea-ink-soft)]">
-								Signed in as <span className="font-semibold">{session.user.email}</span>
-							</p>
-							<p className="m-0 mt-1 text-xs text-[var(--sea-ink-soft)]">
-								{session.user.email === "admin@example.com" ? "Administrator" : "User"}
+								Signed in as{" "}
+								<span className="font-semibold text-[var(--sea-ink)]">{session.user.email}</span>
 							</p>
 						</div>
-						<Link
-							to="/dashboard"
-							className="rounded-xl border border-[var(--line)] bg-[var(--chip-bg)] px-4 py-3 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
-						>
+						<Link to="/dashboard" className={chipClass}>
 							Open Dashboard
+						</Link>
+						<Link to="/products" className={chipClass}>
+							Products
 						</Link>
 					</div>
 				) : (
-					<div className="mt-8 flex flex-wrap gap-4">
-						<Link
-							to="/demo/better-auth"
-							className="rounded-xl border border-[var(--line)] bg-[var(--chip-bg)] px-4 py-3 text-sm font-semibold text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
-						>
-							Sign in / Sign up
-						</Link>
-						<p className="m-0 mt-3 sm:mt-0 text-sm text-[var(--sea-ink-soft)]">
-							Create an account, then{" "}
+					<div className="mt-8">
+						<div className="flex flex-wrap gap-4">
+							<Link to="/login" className={chipClass}>
+								Log in
+							</Link>
+							<Link to="/signup" className={chipClass}>
+								Create an account
+							</Link>
+						</div>
+						<p className="m-0 mt-3 text-sm text-[var(--sea-ink-soft)]">
+							New accounts start as members.{" "}
 							<Link
 								to="/setup"
 								className="underline underline-offset-4 font-medium hover:text-[var(--sea-ink)]"
 							>
-								seed the admin account
-							</Link>
-							to unlock product and user CRUD.
+								Seed the admin account
+							</Link>{" "}
+							to unlock product and user management.
 						</p>
 					</div>
 				)}

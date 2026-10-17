@@ -72,18 +72,19 @@ There is no persistent database. Data lives in memory for the life of the server
    - Creates `admin@example.com` / `admin12345` via `auth.api.signUpEmail` (password hashed by Better Auth) into the memory adapter.
    - Assigns the `admin` role.
    - Seeds 3 sample products.
-3. Sign in at `/demo/better-auth` with `admin@example.com` / `admin12345`.
+3. Log in at `/login` with `admin@example.com` / `admin12345`.
 4. Open `/dashboard`, then `/products` or `/users`.
 
 ## Routes
 
 | Route | Access | Description |
 |---|---|---|
-| `/` | public | Home; sign-in prompt or dashboard link |
-| `/login` | public | Redirects to `/demo/better-auth` |
+| `/` | public | Home; log in / sign up prompt or dashboard link |
+| `/login` | public | Email + password log in (Better Auth `signIn.email`) |
+| `/signup` | public | Name + email + password account creation (Better Auth `signUp.email`) |
 | `/demo/better-auth` | public | Better Auth sign-in / sign-up (scaffold demo) |
 | `/setup` | public | One-time admin + sample data seed (`seedAdmin` server fn) |
-| `/dashboard` | auth | Protected overview (TanStack Query + server fns) |
+| `/dashboard` | auth | Protected overview: profile, catalog stats, recent products, team (`getDashboardData` server fn) |
 | `/products` | auth | Product list (TanStack Table + TanStack Query) |
 | `/products/new` | auth + admin | Create product (TanStack Form) |
 | `/products/$productId` | auth + admin | Edit/delete product (TanStack Form) |
@@ -103,6 +104,7 @@ There is no persistent database. Data lives in memory for the life of the server
 
 - **No persistent DB**: data resets on every redeploy/cold start. Re-run `/setup` after deploying to recreate the admin + sample products. To persist long-term, add a Better Auth adapter (Drizzle/Prisma/Kysely/Mongo) and a `DATABASE_URL`.
 - **`useParams()` requires `{ from: '/path/$param' }`** in this TanStack Router version — calling it with no arguments throws.
+- **Route cycles need an explicit `beforeLoad` return type**: `/login` redirects to `/dashboard` and `/dashboard` redirects back to `/login`, so those two routes annotate `beforeLoad: async (): Promise<void> => {...}`. Without the annotation `tsc` fails with TS7022/TS7023 (implicit `any` from circular type inference).
 - **`createServerFn` methods**: only `GET` and `POST` are valid; do not use `PATCH`/`DELETE`.
 - **Better Auth API is flat**: `auth.api.signUpEmail(...)` (not `auth.api.signUp.email`).
 - **biome check reports pre-existing scaffold lint issues** (styles.css import order/shorthand, `__root.tsx` `dangerouslySetInnerHTML` for the theme script, `slider.tsx` array-index key, `demo/` files). These are from the generated starter, not this feature. My feature files lint clean.

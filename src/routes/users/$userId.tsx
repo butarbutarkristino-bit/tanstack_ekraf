@@ -11,7 +11,7 @@ export const Route = createFileRoute("/users/$userId")({
 	beforeLoad: async () => {
 		const { session } = await getServerSession();
 		if (!session) {
-			return redirect({ to: "/demo/better-auth" }) as any;
+			return redirect({ to: "/login" }) as any;
 		}
 	},
 	component: UserDetail,
